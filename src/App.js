@@ -1,9 +1,10 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import CardList from "./components/CardList/CardList";
 
 function App() {
   const [monsters, setMonsters] = useState([]);
-  const [filteredMonsters, setFilteredMonsters] = useState([]);
+  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
 
   const handleChange = (e) => {
     setFilteredMonsters(filterMonsters(e));
@@ -14,7 +15,6 @@ function App() {
 
   useEffect(() => {
     getData();
-    console.log("r1");
   }, []);
 
   function getData() {
@@ -44,9 +44,7 @@ function App() {
           handleChange(e);
         }}
       />
-      {filteredMonsters.map((monster) => {
-        return <h1 key={monster.id}>{monster.name}</h1>;
-      })}
+      <CardList monsters={filteredMonsters} />
     </div>
   );
 }
