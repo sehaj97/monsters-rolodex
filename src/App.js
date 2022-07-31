@@ -1,19 +1,52 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [name, setName] = useState("magan");
-  function handleClick() {
-    name === "magan" ? setName("sehaj") : setName("magan");
+  const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilteredMonsters] = useState([]);
+
+  const handleChange = (e) => {
+    setFilteredMonsters(filterMonsters(e));
+    if (e.target.value === "") {
+      setFilteredMonsters(monsters);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+    console.log("r1");
+  }, []);
+
+  function getData() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((users) => {
+        setMonsters(users);
+        setFilteredMonsters(users);
+      });
+  }
+
+  function filterMonsters(e) {
+    return filteredMonsters.filter((monster) => {
+      return monster.name
+        .toLocaleLowerCase()
+        .includes(e.target.value.toLocaleLowerCase());
+    });
   }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{name}</p>
-        <button onClick={handleClick}>Change Name</button>
-      </header>
+      <h1>Monster Rolodex</h1>
+      <input
+        className="search-box"
+        type="search"
+        placeholder="search monsters"
+        onChange={(e) => {
+          handleChange(e);
+        }}
+      />
+      {filteredMonsters.map((monster) => {
+        return <h1 key={monster.id}>{monster.name}</h1>;
+      })}
     </div>
   );
 }
