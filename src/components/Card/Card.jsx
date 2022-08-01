@@ -1,4 +1,4 @@
-import "./card.styles.css";
+import "./Card.styles.css";
 
 const Card = ({ monster }) => {
   const { id, name, email } = monster;
