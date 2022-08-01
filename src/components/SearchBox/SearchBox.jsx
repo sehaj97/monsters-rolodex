@@ -1,3 +1,5 @@
+import "./SearchBox.styles.css";
+
 const SearchBox = ({ handleChange }) => (
   <input
     className="search-box"
